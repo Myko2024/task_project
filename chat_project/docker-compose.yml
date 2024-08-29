@@ -1,0 +1,18 @@
+version: '3.11'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - ./db.sqlite3:/app/db.sqlite3  # Mount the local SQLite database to the container
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: nouchka/sqlite3  # An image to run SQLite3 in the container
+    volumes:
+      - ./db.sqlite3:/data/db.sqlite3  # Ensure the SQLite database is accessible
